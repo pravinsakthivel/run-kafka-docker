@@ -1,5 +1,5 @@
 # run-kafka-docker
-Start a kafka Service:
+# Start a kafka Service:
 
 docker pull spotify/kafka
 docker run -d -p 2181:2181 -p 9092:9092 --env ADVERTISED_HOST=kafka --env ADVERTISED_PORT=9092 --name kafka spotify/kafka
@@ -10,14 +10,14 @@ docker run -d -p 2181:2181 -p 9092:9092 --env ADVERTISED_HOST=kafka --env ADVERT
 
 ##We need to use an IP address or hostname in order for the kafka service to be reachable from another container. IP address is not known before the container is started, so we have to choose a hostname, and I chose kafka in this example.
 
-Create a topic
+# Create a topic
 docker exec kafka /opt/kafka_2.11-0.10.1.0/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
 
-List topics
+# List topics
 docker exec kafka /opt/kafka_2.11-0.10.1.0/bin/kafka-topics.sh --list --zookeeper localhost:2181
 
-Start a producer (in a new terminal window)
+# Start a producer (in a new terminal window)
 docker run -it --rm --link kafka spotify/kafka /opt/kafka_2.11-0.10.1.0/bin/kafka-console-producer.sh --broker-list kafka:9092 --topic test
 
-Start a consumer (in a new terminal window)
+# Start a consumer (in a new terminal window)
 docker run -it --rm --link kafka spotify/kafka /opt/kafka_2.11-0.10.1.0/bin/kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic test --from-beginning
